@@ -10,16 +10,13 @@ def read(filepath):
         return text
 
 
-dane = read('D:\Projekty\INŻYNIERKA\Dane\Sin_zmienne.txt')
+dane = read('D:\Projekty\INŻYNIERKA\Dane\Sin_i.txt')
 a = np.genfromtxt(StringIO(dane), skip_header=0)
 # T- ilość danych dla jednego przedziału  <-- ZAMIENIC PÓŹNIEJ NA CZAS np. 24h
 # (czas podzielimy przez krok próbkowania by otrzymać ilość danych
 T = 1000
 t = np.arange(T)
 b = a.reshape(a.size//T, -1)
-
-print(str(b.shape))
-print(b[2, 1])
 
 # Signal
 
@@ -28,8 +25,8 @@ plt.figure(figsize=(10, 6), facecolor='gray')
 plt.subplot(2, 1, 1, facecolor='silver')
 plt.title('Signal', fontsize=20)
 plt.plot(t, b[0], linewidth=1, label='b[0]')
-plt.plot(t, b[1], linewidth=1.2, label='b[1]')
-plt.plot(t, b[2], linewidth=1, label='b[2]')
+# plt.plot(t, b[1], linewidth=1.2, label='b[1]')
+# plt.plot(t, b[2], linewidth=1, label='b[2]')
 
 plt.xlabel('Time', fontsize=15)
 plt.ylabel('Amplitude', fontsize=15)
@@ -51,8 +48,8 @@ image = plt.imread('D:\Projekty\INŻYNIERKA\Dane\Screenshot_1.png')
 # Widmo na wykresie z Shearera
 # plt.imshow(image, extent=[freq.min(), freq.max(), -2, 1])
 plt.plot(freq, widmo0, label='widmo[0]')
-plt.plot(freq, widmo1, label='widmo[1]')
-plt.plot(freq, widmo2, label='widmo[2]')
+# plt.plot(freq, widmo1, label='widmo[1]')
+# plt.plot(freq, widmo2, label='widmo[2]')
 
 plt.xlabel('Frequency', fontsize=15)
 plt.ylabel('Amplitude', fontsize=15)
@@ -66,11 +63,11 @@ plt.show()
 
 # CONTINUOUS WAVELET TRANSFORM
 
-dekomp, freq = pywt.cwt(b[0], np.arange(1, 101, 0.4), 'gaus1')
-dekomp1, freq1 = pywt.cwt(b[1], np.arange(1, 101, 0.4), 'gaus1')
+dekomp, freq = pywt.cwt(b[0], np.arange(1, 51, 0.2), 'gaus1')
+dekomp1, freq1 = pywt.cwt(b[0], np.arange(1, 51, 0.2), 'morl')
 dekomp2, freq2 = pywt.cwt(b[2], np.arange(1, 101, 0.4), 'gaus1')
 
-fig2 = plt.figure(figsize=(12, 8), facecolor='gray')
+fig2 = plt.figure(figsize=(12, 6), facecolor='gray')
 plt.subplot(2, 1, 1)
 plt.title('Spectral decomposition', fontsize=20)
 plt.imshow(dekomp, cmap='hsv')
